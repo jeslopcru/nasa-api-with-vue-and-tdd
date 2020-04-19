@@ -11,6 +11,8 @@
 </template>
 
 <script>
+    import axios from "axios"
+
     export default {
         name: "Search",
         data() {
@@ -21,6 +23,8 @@
         },
         methods: {
             doRequest(query) {
+                axios
+                    .get('https://images-api.nasa.gov/search?media_type=image&q=' + query);
                 this.numberOfImages = query.length
             }
         }
