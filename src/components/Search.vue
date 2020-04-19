@@ -1,6 +1,10 @@
 <template>
     <div class="search">
-        <form v-on:submit.prevent="doRequest(query)"></form>
+        <form v-on:submit.prevent="doRequest(query)">
+            <label>
+                <input v-model="query"/>
+            </label>
+        </form>
         <section>Found Images ({{numberOfImages}})</section>
     </div>
 
@@ -11,7 +15,8 @@
         name: "Search",
         data() {
             return {
-                numberOfImages: 0
+                numberOfImages: 0,
+                query: ''
             }
         },
         methods: {
