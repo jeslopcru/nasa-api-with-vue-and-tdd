@@ -1,5 +1,9 @@
 <template>
-    <section>Found Images ({{numberOfImages}})</section>
+    <div class="search">
+        <form v-on:submit.prevent="doRequest()"></form>
+        <section>Found Images ({{numberOfImages}})</section>
+    </div>
+
 </template>
 
 <script>
@@ -9,6 +13,12 @@
             return {
                 numberOfImages: 0
             }
+        },
+        methods: {
+            doRequest() {
+                this.numberOfImages = 33
+            }
         }
+
     }
 </script>
