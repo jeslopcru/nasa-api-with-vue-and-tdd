@@ -1,5 +1,10 @@
 <template>
     <div v-if="results.length === 0">No items found</div>
+    <div v-else>
+        <div v-for="(result, key) in results" :key="key">
+            {{ result }}
+        </div>
+    </div>
 </template>
 <script>
     export default {
@@ -7,9 +12,7 @@
         props: {
             results: {
                 type: Array,
-                default() {
-                    return [];
-                }
+                required: true
             }
         }
     }
