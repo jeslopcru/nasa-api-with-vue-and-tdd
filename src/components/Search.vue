@@ -18,16 +18,19 @@
         data() {
             return {
                 numberOfImages: 0,
-                query: ''
-            }
+                query: "",
+                results: []
+            };
         },
         methods: {
             doRequest(query) {
                 axios
-                    .get('https://images-api.nasa.gov/search?media_type=image&q=' + query);
-                this.numberOfImages = query.length
+                    .get("https://images-api.nasa.gov/search?media_type=image&q=" + query)
+                    .then(response => {
+                        this.results = response.data.collection.items;
+                        this.numberOfImages = this.results.length;
+                    });
             }
         }
-
-    }
+    };
 </script>

@@ -19,26 +19,29 @@ test('Renders a found images message with a provide value', async () => {
     expect(component.text()).toContain('Found Images (' + currentNumberOfImages + ')');
 });
 
-test('Should update found images when the query is changed with the query size', async () => {
-    const component = shallowMount(Search);
-    const query = 'moon';
-    await component.vm.doRequest(query);
-
-    expect(component.text()).toContain('Found Images (' + query.length + ')');
-});
-
-test('Should update the Found Images on submit with the query size', async () => {
-    const component = shallowMount(Search);
-    const query = 'moon';
-
-    component.setData({query});
-    await component.find('form').trigger('submit');
-
-    expect(component.text()).toContain('Found Images (' + query.length + ')')
-});
-
-jest.mock("axios", () => ({
-    get: jest.fn()
+jest.mock('axios', () => ({
+    get: jest.fn(() => Promise.resolve({
+        data: {
+            collection: {
+                items: [
+                    {
+                        links: [
+                            {
+                                href: 'http://una-url.com'
+                            }
+                        ]
+                    },
+                    {
+                        links: [
+                            {
+                                href: 'http://dos-url.com'
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }))
 }));
 
 test('Should call the API on submit', async () => {
@@ -49,4 +52,15 @@ test('Should call the API on submit', async () => {
     await component.find('form').trigger('submit');
 
     expect(axios.get).toBeCalledWith('https://images-api.nasa.gov/search?media_type=image&q=' + query);
+});
+
+test('Should call the API on submit and update the result array', async () => {
+    const component = shallowMount(Search);
+    const query = 'moon';
+
+    component.setData({query});
+    await component.find('form').trigger('submit');
+
+    expect(component.vm.numberOfImages).toBe(2)
+
 });
