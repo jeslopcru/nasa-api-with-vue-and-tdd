@@ -12,18 +12,33 @@ test('Should print empty message when no result found', () => {
 });
 
 test('Should print each result item', () => {
-    const firstItem = 'http://una-url.com';
-    const secondItem = 'http://dos-url.com';
+    const firstUrl = 'http://una-url.com';
+    const secondUrl = 'http://dos-url.com';
+
+    const dataResult = [
+        {
+            links: [
+                {
+                    href: firstUrl
+                }
+            ]
+        },
+        {
+            links: [
+                {
+                    href: secondUrl
+                }
+            ]
+        }
+    ];
     const component = shallowMount(Gallery,
         {
             propsData: {
-                results: [
-                    firstItem,
-                    secondItem
-                ]
+                results: dataResult
             }
         });
 
-    expect(component.text()).toContain(firstItem);
-    expect(component.text()).toContain(secondItem);
+
+    expect(component.findAll('img').at(0).attributes().src).toContain(firstUrl);
+    expect(component.findAll('img').at(1).attributes().src).toContain(secondUrl);
 });
